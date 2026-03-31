@@ -10,4 +10,5 @@ add_executable(HospitalManagementSystem
         appointments.c
         patients.h
         doctors.h
-        appointments.h)
+        appointments.h
+        patients.c)
