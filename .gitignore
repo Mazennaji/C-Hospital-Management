@@ -1,0 +1,26 @@
+# Compiled binary
+HospitalManagementSystem.exe
+HospitalManagementSystem
+
+# CMake build artifacts
+cmake-build-debug/
+cmake-build-release/
+CMakeCache.txt
+CMakeFiles/
+Makefile
+*.cmake
+
+# CLion IDE files
+.idea/
+*.iml
+
+# Object files
+*.o
+*.obj
+
+# Binary data files (generated at runtime)
+*.dat
+
+# OS files
+.DS_Store
+Thumbs.db
