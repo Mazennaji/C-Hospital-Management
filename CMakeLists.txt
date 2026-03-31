@@ -1,16 +1,14 @@
-cmake_minimum_required(VERSION 3.25)
-project(HospitalManagementSystem C)
+cmake_minimum_required(VERSION 3.20)
+project(C_Hospital_Management C)
 
-set(CMAKE_C_STANDARD 99)
+set(CMAKE_C_STANDARD 11)
 
 add_executable(HospitalManagementSystem
         main.c
         patients.c
-        doctors.c
-        appointments.c
         patients.h
-        doctors.h
-        appointments.h
-        patients.c
         doctors.c
-        appointments.c)
+        doctors.h
+        appointments.c
+        appointments.h
+)

@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 #include "patients.h"
 
@@ -88,4 +89,103 @@ void viewPatients(void) {
 
     for (int i = 0; i < count; i++) printPatient(&patients[i]);
     printSeparator();
+}
+
+void searchPatientByID(void) {
+    Patient patients[MAX_PATIENTS];
+    int count = 0;
+    loadPatients(patients, &count);
+
+    int id;
+    printf("\n  Enter Patient ID to search: ");
+    scanf("%d", &id);
+
+    for (int i = 0; i < count; i++) {
+        if (patients[i].id == id) {
+            printf("\n  === Patient Found ===\n");
+            printPatient(&patients[i]);
+            printSeparator();
+            return;
+        }
+    }
+    printf("  [!] No patient found with ID %d.\n", id);
+}
+
+void editPatient(void) {
+    Patient patients[MAX_PATIENTS];
+    int count = 0;
+    loadPatients(patients, &count);
+
+    int id;
+    printf("\n  Enter Patient ID to edit: ");
+    scanf("%d", &id);
+
+    for (int i = 0; i < count; i++) {
+        if (patients[i].id == id) {
+            printf("\n  Editing Patient ID %d - press Enter to keep current value.\n", id);
+            char buf[100];
+            clearInputBuffer();
+
+            printf("  Name      [%s]: ", patients[i].name);
+            fgets(buf, sizeof(buf), stdin);
+            buf[strcspn(buf, "\n")] = '\0';
+            if (strlen(buf) > 0) strncpy(patients[i].name, buf, sizeof(patients[i].name));
+
+            printf("  Age       [%d]: ", patients[i].age);
+            fgets(buf, sizeof(buf), stdin);
+            buf[strcspn(buf, "\n")] = '\0';
+            if (strlen(buf) > 0) patients[i].age = atoi(buf);
+
+            printf("  Gender    [%s]: ", patients[i].gender);
+            fgets(buf, sizeof(buf), stdin);
+            buf[strcspn(buf, "\n")] = '\0';
+            if (strlen(buf) > 0) strncpy(patients[i].gender, buf, sizeof(patients[i].gender));
+
+            printf("  Phone     [%s]: ", patients[i].phone);
+            fgets(buf, sizeof(buf), stdin);
+            buf[strcspn(buf, "\n")] = '\0';
+            if (strlen(buf) > 0) strncpy(patients[i].phone, buf, sizeof(patients[i].phone));
+
+            printf("  Diagnosis [%s]: ", patients[i].diagnosis);
+            fgets(buf, sizeof(buf), stdin);
+            buf[strcspn(buf, "\n")] = '\0';
+            if (strlen(buf) > 0) strncpy(patients[i].diagnosis, buf, sizeof(patients[i].diagnosis));
+
+            savePatients(patients, count);
+            printf("\n  [OK] Patient ID %d updated.\n", id);
+            return;
+        }
+    }
+    printf("  [!] No patient found with ID %d.\n", id);
+}
+
+void deletePatient(void) {
+    Patient patients[MAX_PATIENTS];
+    int count = 0;
+    loadPatients(patients, &count);
+
+    int id;
+    printf("\n  Enter Patient ID to delete: ");
+    scanf("%d", &id);
+
+    for (int i = 0; i < count; i++) {
+        if (patients[i].id == id) {
+            printf("  Deleting \"%s\" (ID: %d). Confirm? (y/n): ",
+                   patients[i].name, id);
+            char c;
+            clearInputBuffer();
+            scanf("%c", &c);
+            if (c != 'y' && c != 'Y') {
+                printf("  Deletion cancelled.\n");
+                return;
+            }
+            for (int j = i; j < count - 1; j++)
+                patients[j] = patients[j + 1];
+            count--;
+            savePatients(patients, count);
+            printf("\n  [OK] Patient ID %d deleted.\n", id);
+            return;
+        }
+    }
+    printf("  [!] No patient found with ID %d.\n", id);
 }
